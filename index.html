@@ -7,16 +7,17 @@
     <title>with sidebar</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="assets/css/Pretty-Header.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/graphstyle.css">
     <link rel="stylesheet" href="assets/css/style2.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="assets/css/minimap.css">
 </head>
 
 <body>
     <div class="wrapper">
         
-<div class="wrapper">
             <!-- Sidebar Holder -->
             <nav id="sidebar">
                 <div class="sidebar-header">
@@ -83,26 +84,27 @@
                     
                 </ul>
             </nav>
-</div>
 
-       
-            
-        
+   
     </div>
-    <div id="content">
-        <div>
-            <div class="btn-toolbar">
-                <div class="btn-group" role="group">
-                    <button class="btn btn-info" type="button" id="sidebarCollapse"><i class="glyphicon glyphicon-star glyphicon glyphicon-align-left"></i>Toggle Sidebar</button>
-                </div>
-                <div class="btn-group" role="group">
-                    <button class="btn btn-default" type="button">Button 1</button>
-                    <button class="btn btn-default" type="button">Button 2</button>
-                </div>
+    <div id="content" class="wrapper">
+        <div class="btn-toolbar">
+            <div class="btn-group" role="group">
+                <button class="btn btn-info" type="button" id="sidebarCollapse"><i class="glyphicon glyphicon-list"></i> Toggle sidebar</button>
+                <button class="btn btn-default" type="button">Button 2</button>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-default" type="button">Button 1</button>
+                <button class="btn btn-default" type="button">Button 2</button>
             </div>
         </div>
-        <h1>Heading</h1>
+        <div class="page-header">
+            <h1>Page header <small>Subtext for header</small></h1></div>
         <div id="svg-body" class="panel-pody"></div>
+<div id="canvas"></div>
+
+
+   
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
@@ -113,6 +115,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="assets/js/collapse.js"></script>
     <script src="assets/js/fileselect.js"></script>
+    <script src="assets/js/minimap.js"></script>
 </body>
 
 </html>
