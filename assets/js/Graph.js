@@ -54,7 +54,7 @@ function filterNodesById(nodes,id){
 			  .enter().append("svg:marker")
 			    .attr("id", String)
 			    .attr("viewBox", "0 -5 10 10")
-			    .attr("refX", 30)
+			    .attr("refX", 22)
 			    .attr("refY", -0.5)
 			    .attr("markerWidth", 6)
 			    .attr("markerHeight", 6)
@@ -88,6 +88,7 @@ function filterNodesById(nodes,id){
 			var nodeTexts = svg.selectAll(".node-text")
 		                .data(filterNodesByType(graph.nodes, "node"))
 		                .enter()
+                   
 		                .append("text")
 							.attr("class", "node-text")
 							.text( function (d) { return d.label; })
@@ -98,13 +99,19 @@ function filterNodesById(nodes,id){
 			
 			// ==================== Add Node =====================
 			var nodes = svg.selectAll(".node")
+                             
 								.data(filterNodesByType(graph.nodes, "node"))
 								.enter()
+                                
+                                          
 								.append("circle")
 									.attr("class", "node")
+                               
+			   	                    
 									.attr("r",8)
 									.call(force.drag)
 							;//nodes
+                            
 		
 			// ==================== Force ====================
 			force.on("tick", function() {
@@ -137,8 +144,8 @@ function filterNodesById(nodes,id){
 			force
 		      .nodes(graph.nodes)
 		      .links(graph.links)
-			  .charge(-500)
-			  .linkDistance(50)
+			  .charge(-1000)
+			  .linkDistance(85)
 		      .start()
 			  ;
 		}

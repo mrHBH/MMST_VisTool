@@ -7,12 +7,10 @@
     <title>with sidebar</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
-    <link rel="stylesheet" href="assets/css/Pretty-Header.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/graphstyle.css">
+    <link rel="stylesheet" href="assets/css/autocomplete.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="assets/css/style2.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="assets/css/minimap.css">
 </head>
 
 <body>
@@ -21,90 +19,98 @@
             <!-- Sidebar Holder -->
             <nav id="sidebar">
                 <div class="sidebar-header">
-                    <h3>Vis Tool</h3>
+                    <h3>Informations</h3>
                 </div>
+  
+                 <ul class="list-unstyled components">
+
+                  
+          
 
                 <ul class="list-unstyled components">
 
                     <li class="active">
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Loaded files</a>
+                      <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Revision Infora</a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
+                            
+                            
                               <div class="sidebar-header">
-                                  
-                                  
-                                  <h4>Original RDF</h4>
-            <div class="input-group">
-                <label class="input-group-btn">
-                    <span class="btn btn-primary">
-                        Browse&hellip; <input type="file" style="display: none;" >
-                  </span>
-                </label>
-                <input type="text" class="form-control" readonly>
-            </div>
-                                  
-                                   
-                                  <h4>Modified RDF</h4>
-            <div class="input-group">
-                <label class="input-group-btn">
-                    <span class="btn btn-primary">
-                        Browse&hellip; <input type="file" style="display: none;" >
-                  </span>
-                </label>
-                <input type="text" class="form-control" readonly>
-            </div>
-          
+                                  <div class="ui sub header">Single</div>
+                     
+
+                             
                 </div>                          
                  </ul>
                     </li>
                     <li>
                         <a href="#">About</a>
-                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">filters</a>
+                      
+                              <div class="sidebar-header">
                         <ul class="collapse list-unstyled" id="pageSubmenu">
-                            <li><a href="#">Page 1</a></li>
+                            <li><a href="#">coming from</a></li>
+                                                  
+                                  <h4>Original RDF</h4>
+            <div class="input-group">
+              
+                    
+           
+                 
+           
+                <input type="text" class="form-control" readonly>
+            </div>                               
                             
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">Portfolio</a>
-                    </li>
-                    <li>
-                        <a href="#">Contact</a>
-                    </li>
-                </ul> 
+                    
+                 
+               
+                 </div>     
               <div class="sidebar-header">
-                    <h4>Infos</h4>
-                  <button id="sidebarbutton" class="btn btn-info" type="button">
-                      Sidebar button 
-                  </button>
-                          
-                         
+                    <h4>Controls</h4>
+                  <button id="bod" class="btn btn-danger" type="button">Reset</button>
+                  
+                  <button id="bod" class="btn btn-info"   type="button " onclick="reloadgraphs()">Reload Graphs</button>       
+                           <button id="bod" class="btn btn-info"   type="button " onclick="loadavailablerevisions(selectedgraph)">load revision</button>        
                 </div>
 
                 <ul >
-                    
+                    jjj
                 </ul>
-            </nav>
-
    
     </div>
+    <div class="row"></div>
     <div id="content" class="wrapper">
         <div class="btn-toolbar">
             <div class="btn-group" role="group">
-                <button class="btn btn-info" type="button" id="sidebarCollapse"><i class="glyphicon glyphicon-list"></i> Toggle sidebar</button>
-                <button class="btn btn-default" type="button">Button 2</button>
+                <button class="btn btn-info" type="button" id="sidebarCollapse"><i class="glyphicon glyphicon-list"></i> Show Infos</button>
             </div>
             <div class="btn-group" role="group">
-                <button class="btn btn-default" type="button">Button 1</button>
-                <button class="btn btn-default" type="button">Button 2</button>
+                <div class="dropdown btn-group" role="group">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="Graphselection">Select Graph<span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" id="selec"></ul>
+                </div>
+                <div class="dropdown btn-group" role="group">
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="revisionselection">Select Revision<span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation"><a href="#">First Item</a></li>
+                        <li role="presentation"><a href="#">Second Item</a></li>
+                        <li role="presentation"><a href="#">Third Item</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="btn-group" role="group">
+                <button class="btn btn-default" type="button">Show Base Graph</button>
+                <button class="btn btn-default" type="button">Show Current Revision</button>
+                <button class="btn btn-default" type="submit">Show Difference</button>
             </div>
         </div>
-        <div class="page-header">
-            <h1>Page header <small>Subtext for header</small></h1></div>
-        <div id="svg-body" class="panel-pody"></div>
-<div id="canvas"></div>
+        <h1></h1>
+<div id="svg-body" class="canvas"></div>
+<div id="svg-revisions" class="canvas"></div>
+<div class="ui-widget">
+  <label for="tags">Search: </label>
+  <input id="tags">
+</div>
 
-
-   
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
@@ -114,8 +120,14 @@
     <script src="assets/js/mainloop.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="assets/js/collapse.js"></script>
-    <script src="assets/js/fileselect.js"></script>
+    <script src="assets/js/tooltip.js"></script>
+    <script src="assets/js/search.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="assets/js/zoom.js"></script>
+    <script src="assets/js/externalinterface.js"></script>
     <script src="assets/js/minimap.js"></script>
+    <script src="assets/js/Dropdown Selections.js"></script>
+    <script src="assets/js/turtleparser.js"></script>
 </body>
 
 </html>
