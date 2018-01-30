@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>Parsing demo</h2>
+
+<p id="demo"></p>
+
+<script>
+
+function rev(added, deleted, belonged, derived, revnum) 
+{
+    this.added 		= added;
+    this.deleted 	= deleted;
+    this.belonged 	= belonged;
+    this.derived 	= derived;
+    this.revnum 	= revnum;
+}
+
+var txt = 
+"@prefix rpo:   <http://eatld.et.tu-dresden.de/rpo#> .@prefix sdd:   <http://eatld.et.tu-dresden.de/sdd#> .@prefix dc-terms: <http://purl.org/dc/terms/> .@prefix rmo:   <http://eatld.et.tu-dresden.de/rmo#> .@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .@prefix owl:   <http://www.w3.org/2002/07/owl#> .@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .@prefix sddo:  <http://eatld.et.tu-dresden.de/sddo#> .@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .@prefix prov:  <http://www.w3.org/ns/prov#> .<http://test.com/r43ples-dataset-2-revision-0>a                   rmo:Revision ;rmo:belongsTo       <http://test.com/r43ples-dataset-2-master> ;rmo:revisionNumber  0 .<http://test.com/r43ples-dataset-2-commit-1>a                       rmo:RevisionCommit ;dc-terms:titletest commit message 1;prov:atTime             2018-01-27T16:58:43.259^^xsd:dateTime ;prov:generated          <http://test.com/r43ples-dataset-2-revision-1> ;prov:used               <http://test.com/r43ples-dataset-2-revision-0> ;prov:wasAssociatedWith  <http://eatld.et.tu-dresden.de/persons/butler> .<http://test.com/r43ples-dataset-2-revision-1>a                    rmo:Revision ;rmo:addSet           <http://test.com/r43ples-dataset-2-addSet-1> ;rmo:belongsTo        <http://test.com/r43ples-dataset-2-master> ;rmo:deleteSet        <http://test.com/r43ples-dataset-2-deleteSet-1> ;rmo:revisionNumber   1 ;prov:wasDerivedFrom  <http://test.com/r43ples-dataset-2-revision-0> .<http://test.com/r43ples-dataset-2-master>a               rmo:Reference , rmo:Branch , rmo:Master ;rdfs:label     master ;rmo:fullGraph   <http://test.com/r43ples-dataset-2> ;rmo:references  <http://test.com/r43ples-dataset-2-revision-2> .<http://test.com/r43ples-dataset-2-commit-2>a                       rmo:RevisionCommit ;dc-terms:title          test commit message 2 ;prov:atTime             2018-01-27T16:58:43.367^^xsd:dateTime ;prov:generated          <http://test.com/r43ples-dataset-2-revision-2> ;prov:used               <http://test.com/r43ples-dataset-2-revision-1> ;prov:wasAssociatedWith  <http://eatld.et.tu-dresden.de/persons/butler> .<http://test.com/r43ples-dataset-2-revision-2>a                    rmo:Revision ;rmo:addSet           <http://test.com/r43ples-dataset-2-addSet-2> ;rmo:belongsTo        <http://test.com/r43ples-dataset-2-master> ;rmo:deleteSet        <http://test.com/r43ples-dataset-2-deleteSet-2> ;rmo:revisionNumber   2 ;prov:wasDerivedFrom  <http://test.com/r43ples-dataset-2-revision-1> .<http://test.com/r43ples-dataset-2-commit-0>a                       rmo:ReferenceCommit , rmo:RevisionCommit ;dc-terms:title          initial commit ;prov:atTime             2018-01-27T16:58:43.239^^xsd:dateTime ;prov:generated          <http://test.com/r43ples-dataset-2-master> , <http://test.com/r43ples-dataset-2-revision-0> ;prov:wasAssociatedWith  <http://eatld.et.tu-dresden.de/user/r43ples> .";
+
+var lgnt	= txt.length;
+var count 	= 0;
+var pos 	= 0;
+var temp 	= 0;
+var i = 0;
+
+// cleaning the text from white characters
+txt = txt.replace(/ /g, "");		//erase spaces
+txt = txt.replace(/&lt;/g, "");		//erase <
+txt = txt.replace(/&gt;/g, "");		//erase >
+txt = txt.replace(/&quot;/g, "");	//erase "
+
+// finding the number of the rev
+for (i = 0; i < lgnt; i++)
+{
+	pos = txt.indexOf("revisionNumber", temp);
+    if (pos != -1)
+    {
+    	temp = pos + 1;
+    	count++;
+    }
+}
+
+// finding the revision info
+var revision = new rev()[count];
+var temptxt = 0;
+var pos1 = 0;
+var pos2 = 0;
+
+for (i = 0; i < count; i++)
+{
+	document.getElementById("demo").innerHTML = pos2;
+    
+    if (i == 0)
+    {
+    	pos1 = temp.indexOf("belongsTo", pos2);
+        if (pos1 != -1)
+        {
+          pos2 = temp.indexOf(";", (pos1 + 10));
+          revision[i].belonged = temp.slice((pos1 + 10), (pos2 - 1));
+        }
+        else
+        {
+            revision[i].added = "";
+        }
+        
+       	pos1 = temp.indexOf("revisionNumber", pos2);
+        if (pos1 != -1)
+        {
+          pos2 = temp.indexOf(".", (pos1 + 14));
+          revision[i].revnum = temp.slice((pos1 + 14), (pos2 - 1));
+        }
+        else
+        {
+            revision[i].added = "";
+        }
+    }
+	else if (pos2 < lgnt)
+    {
+		temp = txt.slice(pos2,lgnt);
+        
+        pos1 = temp.indexOf("addSet", pos2);
+        if (pos1 != -1)
+        {
+            pos2 = temp.indexOf(";", (pos1 + 7));
+            revision[i].added = temp.slice((pos1 + 7), (pos2 - 1));
+        }
+        else
+        {
+            revision[i].added = "";
+        }
+
+        pos1 = temp.indexOf("belongsTo", pos2);
+        if (pos1 != -1)
+        {
+          pos2 = temp.indexOf(";", (pos1 + 10));
+          revision[i].belonged = temp.slice((pos1 + 10), (pos2 - 1));
+        }
+        else
+        {
+            revision[i].added = "";
+        }
+
+        pos1 = temp.indexOf("deleteSet", pos2);
+        if (pos1 != -1)
+        {
+          pos2 = temp.indexOf(";", (pos1 + 10));
+          revision[i].deleted = temp.slice((pos1 + 10), (pos2 - 1));
+        }
+        else
+        {
+            revision[i].added = "";
+        }
+
+        pos1 = temp.indexOf("revisionNumber", pos2);
+        if (pos1 != -1)
+        {
+          pos2 = temp.indexOf(";", (pos1 + 14));
+          revision[i].revnum = temp.slice((pos1 + 14), (pos2 - 1));
+        }
+        else
+        {
+            revision[i].added = "";
+        }
+
+        pos1 = temp.indexOf("wasDerivedFrom", pos2);
+        if (pos1 != -1)
+        {
+          pos2 = temp.indexOf(".h", (pos1 + 14));
+          revision[i].derived = temp.slice((pos1 + 14), (pos2 - 1));
+        }
+        else
+        {
+            revision[i].added = "";
+        }
+    }
+}
+
+document.getElementById("demo").innerHTML = lgnt;
+</script>
+
+</body>
+</html>
