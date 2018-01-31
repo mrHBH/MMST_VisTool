@@ -7,36 +7,47 @@ function rev(added, deleted, belonged, derived, revnum)
     this.revnum 	= revnum;
 }
 
-function parse(txt)
+function revnum(txt)
 {
-  var lgnt	= txt.length;
-  var count 	= 0;
-  var pos 	= 0;
-  var temp 	= 0;
-  var i = 0;
+	var lgnt = txt.length;
+	var count = 0;
+	var pos = 0;
+	var temp = 0;
+	var i = 0;
+	
+	// cleaning the text from white characters
+	txt = txt.replace(/ /g, "");			//erase spaces
+	txt = txt.replace(/&lt;/g, "");			//erase <
+	txt = txt.replace(/&gt;/g, "");			//erase >
+	txt = txt.replace(/&quot;/g, "");		//erase "
+	
+	// finding the number of the rev
+	for (i = 0; i < lgnt; i++)
+	{
+		pos = txt.indexOf("revisionNumber", temp);
+		if (pos != -1)
+		{
+		    temp = pos + 1;
+		    count++;
+		}
+	}
+	
+	return count;
+}
 
-  // cleaning the text from white characters
-  txt = txt.replace(/ /g, "");		//erase spaces
-  txt = txt.replace(/&lt;/g, "");		//erase <
-  txt = txt.replace(/&gt;/g, "");		//erase >
-  txt = txt.replace(/&quot;/g, "");	//erase "
-
-  // finding the number of the rev
-  for (i = 0; i < lgnt; i++)
-  {
-      pos = txt.indexOf("revisionNumber", temp);
-      if (pos != -1)
-      {
-          temp = pos + 1;
-          count++;
-      }
-  }
-
+function parse(txt, revcount)
+{
   // finding the revision info
   var revision = new rev()[count];
   var temptxt = 0;
   var pos1 = 0;
   var pos2 = 0;
+
+  // cleaning the text from white characters
+  txt = txt.replace(/ /g, "");			//erase spaces
+  txt = txt.replace(/&lt;/g, "");		//erase <
+  txt = txt.replace(/&gt;/g, "");		//erase >
+  txt = txt.replace(/&quot;/g, "");		//erase "
 
   txt = txt.split("rmo:Revision;");		// converting the text into array
 
@@ -99,5 +110,5 @@ function parse(txt)
       }
   }
   
-  return count, revision;
+  return revision;
 }
