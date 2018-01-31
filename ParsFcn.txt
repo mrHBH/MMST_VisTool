@@ -1,3 +1,5 @@
+var revision = [];
+
 function rev(added, deleted, belonged, derived, revnum) 
 {
     this.added 		= added;
@@ -5,6 +7,12 @@ function rev(added, deleted, belonged, derived, revnum)
     this.belonged 	= belonged;
     this.derived 	= derived;
     this.revnum 	= revnum;
+}
+
+function addRevison(added, deleted, belonged, derived, revnum)
+{    
+  var r = new rev(added, deleted, belonged, derived, revnum);
+  revison.push(r);
 }
 
 function revnum(txt)
@@ -38,10 +46,15 @@ function revnum(txt)
 function parse(txt, revcount)
 {
   // finding the revision info
-  var revision = new rev()[count];
   var temptxt = 0;
   var pos1 = 0;
   var pos2 = 0;
+
+  var added 	= "-1";
+  var belonged	= "-1";
+  var deleted	= "-1";
+  var revnum	= "-1";
+  var derived	= "-1";
 
   // cleaning the text from white characters
   txt = txt.replace(/ /g, "");			//erase spaces
@@ -49,66 +62,68 @@ function parse(txt, revcount)
   txt = txt.replace(/&gt;/g, "");		//erase >
   txt = txt.replace(/&quot;/g, "");		//erase "
 
-  txt = txt.split("rmo:Revision;");		// converting the text into array
+  txt = txt.split("rmo:Revision;");	// converting the text into array
 
-  for (i = 0; i < count; i++)
+  for (i = 0; i < revcount; i++)
   {
-      temptxt = txt[i]
+    temptxt = txt[i];
+    
+    pos1 = temptxt.indexOf("addSet", pos2);
+    if (pos1 != -1)
+    {
+      pos2 = temptxt.indexOf(";", (pos1 + 7));
+      added = temptxt.slice((pos1 + 7), (pos2 - 1));
+    }
+    else
+    {
+      added = "-1";
+    }
 
-      pos1 = temptxt.indexOf("addSet", pos2);
-      if (pos1 != -1)
-      {
-        pos2 = temptxt.indexOf(";", (pos1 + 7));
-        revision[i].added = temptxt.slice((pos1 + 7), (pos2 - 1));
-      }
-      else
-      {
-        revision[i].added = "";
-      }
+    pos1 = temptxt.indexOf("belongsTo", pos2);
+    if (pos1 != -1)
+    {
+      pos2 = temptxt.indexOf(";", (pos1 + 10));
+      belonged = temptxt.slice((pos1 + 10), (pos2 - 1));
+    }
+    else
+    {
+      belonged = "-1";
+    }
 
-      pos1 = temptxt.indexOf("belongsTo", pos2);
-      if (pos1 != -1)
-      {
-        pos2 = temptxt.indexOf(";", (pos1 + 10));
-        revision[i].belonged = temptxt.slice((pos1 + 10), (pos2 - 1));
-      }
-      else
-      {
-        revision[i].added = "";
-      }
+    pos1 = temptxt.indexOf("deleteSet", pos2);
+    if (pos1 != -1)
+    {
+      pos2 = temptxt.indexOf(";", (pos1 + 10));
+      deleted = temptxt.slice((pos1 + 10), (pos2 - 1));
+    }
+    else
+    {
+      deleted = "-1";
+    }
 
-      pos1 = temptxt.indexOf("deleteSet", pos2);
-      if (pos1 != -1)
-      {
-        pos2 = temptxt.indexOf(";", (pos1 + 10));
-        revision[i].deleted = temptxt.slice((pos1 + 10), (pos2 - 1));
-      }
-      else
-      {
-        revision[i].added = "";
-      }
+    pos1 = temptxt.indexOf("revisionNumber", pos2);
+    if (pos1 != -1)
+    {
+      revnum = temptxt.slice((pos1 + 14), (pos1 + 15));
+    }
+    else
+    {
+      revnum = "-1";
+    }
 
-      pos1 = temptxt.indexOf("revisionNumber", pos2);
-      if (pos1 != -1)
-      {
-        revision[i].revnum = temptxt.slice((pos1 + 14), (pos1 + 15));
-      }
-      else
-      {
-        revision[i].added = "";
-      }
+    pos1 = temptxt.indexOf("wasDerivedFrom", pos2);
+    if (pos1 != -1)
+    {
+      pos2 = temptxt.indexOf(".h", (pos1 + 14));
+      derived = temptxt.slice((pos1 + 14), (pos2 - 1));
+    }
+    else
+    {
+      derived = "-1";
+    }    
 
-      pos1 = temptxt.indexOf("wasDerivedFrom", pos2);
-      if (pos1 != -1)
-      {
-        pos2 = temptxt.indexOf(".h", (pos1 + 14));
-        revision[i].derived = temptxt.slice((pos1 + 14), (pos2 - 1));
-      }
-      else
-      {
-        revision[i].added = "";
-      }
+    addRevison(added, deleted, belonged, derived, revnum);
   }
-  
-  return revision;
+
+  //return revision;
 }
