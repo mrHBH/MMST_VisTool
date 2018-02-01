@@ -1,16 +1,3 @@
-.link{
-  fill:none;
-  stroke:#999;
-  stroke-opacity:0.6;
-  stroke-width:1px;
-}
-
-. node{
-  stroke:#456;
-  fill:#ddd;
-  stroke-width:200px;
-}
-
 marker{
   stroke:#999;
   fill:rgba(124,240,10,0);
@@ -29,5 +16,11 @@ marker{
 svg{
   height:76vh;
   border:3px solid rgb(78,45,207);
+}
+
+.node_deleted{
+  stroke:#456;
+  fill:green;
+  stroke-width:2px;
 }
 

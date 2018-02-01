@@ -46,7 +46,7 @@ function filterNodesById(nodes,id){
 			return graph;
 		}
 		
-		
+		/*
 		function update(){
 			// ==================== Add Marker ====================
 			svg.append("svg:defs").selectAll("marker")
@@ -148,5 +148,5 @@ function filterNodesById(nodes,id){
 			  .linkDistance(85)
 		      .start()
 			  ;
-		}
+		}*/
 		

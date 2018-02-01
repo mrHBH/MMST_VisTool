@@ -1,7 +1,4 @@
-nodetexts=svg.selectAll(".node-text")
-
-nodes=svg.selectAll(".node")
-
+var svg = d3.select(".panCanvas")
 
 var counter = 0;
 var nodeindex=0;
@@ -11,10 +8,13 @@ var selectedname="none";
 var Textnodes = [];
 var xjump=0;
 var yjump=0;
+
 while(counter < length){
   Textnodes.push(nodetexts[0][counter++].innerHTML
 );
 }
+
+
  function refrechsearch(){
      
      counter=0;

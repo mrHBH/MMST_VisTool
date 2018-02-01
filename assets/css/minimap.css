@@ -1,24 +1,44 @@
-#home{
-  position:absolute;
-  top:15;
-  left:15;
+html, body{
+  font-family:Arial, sans-serif;
 }
 
-#minimap{
-  position:absolute;
-  top:15;
-  left:550px;
+.title{
+  font-size:16px;
 }
 
-#minimapViewer{
+.canvas{
+  overflow:hidden;
+}
+
+.canvas .wrapper.outer > .background{
+  fill:#44444;
+}
+
+.canvas .wrapper.inner > .background{
+  fill:#CCCCCC;
   cursor:move;
-  stroke:white;
-  stroke-opacity:0.75;
-  stroke-width:2px;
 }
 
-.shadow{
-  border-radius:1px;
-  box-shadow:0px 0px 0px 2px rgba(0, 0, 0, 0.5);
+.canvas .background{
+  fill:#F6F6F6;
+  stroke:#333333;
+  cursor:move;
+}
+
+.canvas .panCanvas{
+  cursor:move;
+}
+
+.canvas .minimap .frame .background{
+  stroke:#111111;
+  stroke-width:4px;
+  fill-opacity:0.4;
+  fill:#000000;
+  fill:url(#minimapGradient_gmult);
+  filter:url(#minimapDropShadow_gmult);
+  cursor:move;
+}
+
+.forcecircle{
 }
 

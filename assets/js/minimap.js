@@ -1,12 +1,14 @@
-d3.demo = {};
 
+d3.demo = {};
+var pannablecanvas=0;
 /** CANVAS **/
+d3.demo = {};
 d3.demo.canvas = function() {
 
     "use strict";
 
-    var width           = 500,
-        height          = 500,
+    var width           = 600,
+        height          = 800,
         zoomEnabled     = true,
         dragEnabled     = true,
         scale           = 1,
@@ -15,7 +17,9 @@ d3.demo.canvas = function() {
         wrapperBorder   = 2,
         minimap         = null,
         minimapPadding  = 20,
-        minimapScale    = 0.25;
+        minimapScale    = 0.25,
+        circleSelection = null,
+        force           = null;
 
     function canvas(selection) {
 
@@ -70,7 +74,7 @@ d3.demo.canvas = function() {
         var svgDefs = svg.append("defs");
 
         svgDefs.append("clipPath")
-            .attr("id", "wrapperClipPath")
+            .attr("id", "wrapperClipPathDemo02_gmult")
             .attr("class", "wrapper clipPath")
             .append("rect")
             .attr("class", "background")
@@ -78,7 +82,7 @@ d3.demo.canvas = function() {
             .attr("height", height);
             
         svgDefs.append("clipPath")
-            .attr("id", "minimapClipPath")
+            .attr("id", "minimapClipPathDemo02_gmult")
             .attr("class", "minimap clipPath")
             .attr("width", width)
             .attr("height", height)
@@ -89,7 +93,7 @@ d3.demo.canvas = function() {
             .attr("height", height);
             
         var filter = svgDefs.append("svg:filter")
-            .attr("id", "minimapDropShadow")
+            .attr("id", "minimapDropShadow_gmult")
             .attr("x", "-20%")
             .attr("y", "-20%")
             .attr("width", "150%")
@@ -119,7 +123,7 @@ d3.demo.canvas = function() {
             
         var minimapRadialFill = svgDefs.append("radialGradient")
             .attr({
-                id:"minimapGradient",
+                id:"minimapGradient_gmult",
                 gradientUnits:"userSpaceOnUse",
                 cx:"500",
                 cy:"500",
@@ -148,7 +152,7 @@ d3.demo.canvas = function() {
 
         var innerWrapper = outerWrapper.append("g")
             .attr("class", "wrapper inner")
-            .attr("clip-path", "url(#wrapperClipPath)")
+            .attr("clip-path", "url(#wrapperClipPathDemo02_gmult)")
             .attr("transform", "translate(" + (wrapperBorder) + "," + (wrapperBorder) + ")")
             .call(zoom);
 
@@ -162,7 +166,7 @@ d3.demo.canvas = function() {
             .attr("width", width)
             .attr("height", height)
             .attr("transform", "translate(0,0)");
-
+pannablecanvas=panCanvas;
         panCanvas.append("rect")
             .attr("class", "background")
             .attr("width", width)
@@ -178,14 +182,150 @@ d3.demo.canvas = function() {
         svg.call(minimap);
             
         // startoff zoomed in a bit to show pan/zoom rectangle
-        zoom.scale(1.75);
-        zoomHandler(1.75);
+        zoom.scale(1.5);
+        zoomHandler(1.5);
 
         /** ADD SHAPE **/
         canvas.addItem = function(item) {
             panCanvas.node().appendChild(item.node());
             minimap.render();
         };
+        /*
+        canvas.addCircles = function(circleDataArray) {
+            circleSelection = panCanvas.selectAll(".
+            
+            
+            circle").data(circleDataArray).enter()
+                .append("circle")
+                .attr("class", "forcecircle")
+                .attr("cx", function(d) {
+                    return d.x;
+                })
+                .attr("cy", function(d) {
+                    return d.y;
+                })
+                .attr("r", 8);
+            force = d3.layout.force()
+                .nodes(circleDataArray)
+                .size([width, height])
+                .on("tick", function(){
+                    circleSelection
+                        .attr("cx", function(d) { return d.x; })
+                        .attr("cy", function(d) { return d.y; });
+                    minimap.render();
+                })
+                .start();
+        }
+**/ 
+canvas.drawgraph = function(graphr) {
+  // ==================== Add Marker ====================
+  panCanvas.append("svg:defs").selectAll("marker")
+      .data(["end"])
+    .enter().append("svg:marker")
+      .attr("id", String)
+      .attr("viewBox", "0 -5 10 10")
+      .attr("refX", 22)
+      .attr("refY", -0.5)
+      .attr("markerWidth", 6)
+      .attr("markerHeight", 6)
+      .attr("orient", "auto")
+    .append("svg:polyline")
+      .attr("points", "0,-5 10,0 0,5")
+      ;
+    
+  // ==================== Add Links ====================
+   var links = panCanvas.selectAll(".link")
+            .data(graph.triples)
+            .enter()
+            .append("path")
+              .attr("marker-end", "url(#end)")
+              .attr("class", "link")
+							.attr("fill", "none")
+							.attr("stroke", "#999")
+							.attr("stroke-opacity", 0.6)
+          ;
+              
+  // ==================== Add Link Names =====================
+  var linkTexts = panCanvas.selectAll(".link-text")
+                .data(graph.triples)
+                .enter()
+                .append("text")
+          .attr("class", "link-text")
+          .text( function (d) { return d.p.label; })
+        ;
+
+    //linkTexts.append("title")
+    //		.text(function(d) { return d.predicate; });
+        
+  // ==================== Add Link Names =====================
+  var nodeTexts = panCanvas.selectAll(".node-text")
+                .data(filterNodesByType(graph.nodes, "node"))
+                .enter()
+               
+                .append("text")
+          .attr("class", "node-text")
+          .text( function (d) { return d.label; })
+        ;
+
+    //nodeTexts.append("title")
+    //		.text(function(d) { return d.label; });
+
+  // ==================== Add Node =====================
+  var nodes = panCanvas.selectAll(".node")
+                         
+            .data(filterNodesByType(graph.nodes, "node"))
+            .enter()
+                            
+                                      
+            .append("circle")
+              .attr("class", "node")
+              .attr("fill", "black")     
+                          
+              .attr("r",8)
+          ;//nodes
+
+
+    force = d3.layout.force()
+    
+//var force = d3.layout.force().size([800, 600]);
+        .nodes(graphr.nodes)
+        .links(graphr.links)
+        .size([width, height])
+
+        .on("tick", function() {
+  				nodes
+  					.attr("cx", function(d){ return d.x; })
+  					.attr("cy", function(d){ return d.y; })
+  					;
+  				
+  				links
+  					.attr("d", function(d) {
+  						  return "M" 	+ d.s.x + "," + d.s.y
+  										+ "S" + d.p.x + "," + d.p.y
+  										+ " " + d.o.x + "," + d.o.y;
+  						})
+  					;
+  								   
+  				nodeTexts
+  					.attr("x", function(d) { return d.x + 12 ; })
+  					.attr("y", function(d) { return d.y + 3; })
+  					;
+  					
+
+  				linkTexts
+  					.attr("x", function(d) { return 4 + (d.s.x + d.p.x + d.o.x)/3  ; })
+  					.attr("y", function(d) { return 4 + (d.s.y + d.p.y + d.o.y)/3 ; })
+                        minimap.render();
+        })
+      
+       .charge(-1000)
+        .linkDistance(85)
+        .start()
+}
+
+
+
+
 
         /** RENDER **/
         canvas.render = function() {
@@ -238,8 +378,8 @@ d3.demo.canvas = function() {
                     iy = d3.interpolate(yScale.domain(), [-height / 2, height / 2]),
                     iz = d3.interpolate(scale, 1);
                 return function(t) {
-                    zoom.scale(iz(t)).x(x.domain(ix(t))).y(y.domain(iy(t)));
-                    zoomed(iz(t));
+                    zoom.scale(iz(t)).x(xScale.domain(ix(t))).y(yScale.domain(iy(t)));
+                    zoomHandler(iz(t));
                 };
             });
         };
@@ -271,7 +411,6 @@ d3.demo.canvas = function() {
 
     return canvas;
 };
-
 
 
 
@@ -314,7 +453,7 @@ d3.demo.minimap = function() {
             .attr("class", "background")
             .attr("width", width)
             .attr("height", height)
-            .attr("filter", "url(#minimapDropShadow)");
+            .attr("filter", "url(#minimapDropShadow_gmult)");
 
         var drag = d3.behavior.drag()
             .on("dragstart.minimap", function() {
@@ -424,31 +563,34 @@ d3.demo.minimap = function() {
 /** UTILS **/
 d3.demo.util = {};
 d3.demo.util.getXYFromTranslate = function(translateString) {
-    var split = translateString.split(",");
-    var x = split[0] ? ~~split[0].split("(")[1] : 0;
-    var y = split[1] ? ~~split[1].split(")")[0] : 0;
-    return [x, y];
+    var currentTransform = d3.transform(translateString);
+    currentX = currentTransform.translate[0];
+    currentY = currentTransform.translate[1];
+    return [currentX, currentY];
 };
 
 
-/** RUN SCRIPT **/
 var canvasWidth = 800;
 var shapes = [];
 var lastXY = 1;
 var zoomEnabled = true;
 var dragEnabled = true;
 
-var canvas = d3.demo.canvas().width(435).height(400);
-d3.select("#canvas").call(canvas);
+var canvas = d3.demo.canvas().width(800).height(600);
+d3.select("#canvas_gmult").call(canvas);
 
-d3.select("#resetButton").on("click", function() {
-    modeler.reset();
-});
-        
-d3.xml("http://www.billdwhite.com/wordpress/wp-content/images/butterfly.svg", "image/svg+xml", function(xml) {
-    addItem(xml.documentElement);
-});
-        
-function addItem(item) {
-    canvas.addItem(d3.select(item));
-}
+
+ 
+function drawgraph(graph){
+ canvas.drawgraph(graph); 
+ nodetexts = d3.select(".panCanvas").selectAll(".node-text");
+ nodes = d3.select(".panCanvas").selectAll(".node")
+
+
+    colorDeletedLinks(triples_1, triples_deleted);  //color the deleted links, Input: old triples, deleted triples
+	colorDeletedNodes(triples_2, triples_deleted);  //color the deleted nodes, Input: new triples, deleted triples
+	colorAddedLinks(triples_1, triples_added);      //color the added links, Input: old triples, added triples
+	colorAddedNodes(triples_1, triples_merged);        //color the added nodes, Input: old triples, added triples
+ return(nodetexts,nodes)
+ }
+drawgraph(graph);

@@ -5,7 +5,7 @@ var el = document.createElement( 'html' );
 var url='';
 
 
-function loadavailablerevisions(selection) {
+/*function loadavailablerevisions(selection) {
     availablerevisions = [];
     url="http://127.0.0.1:8080/r43ples/revisiongraph?graph="+selection
     result = httpGet(url);
@@ -13,17 +13,41 @@ function loadavailablerevisions(selection) {
     rdf = turtle.parse(result);
     
 	
-graph = triplesToGraph(rdf);
+    graph = triplesToGraph(rdf);
 
-
-	update();
+    drawgraph(graph);
     nodetexts=svg.selectAll(".node-text")
     refrechsearch();
-    console.log(rdf)
 return result}
+*/
+///////////////////////////////////////////////////////////////////////////
+var A;
+var B;
+function loadavailablerevisions(selection) {
+    commits=[];
+    revisionss=[];
+    A=[];
+    
+    availablerevisions = [];
+    url="http://127.0.0.1:8080/r43ples/revisiongraph?graph="+selection
+    result = httpGet(url);  
+    rdf = turtle.parse(result);
+    A=parserdf(selection,rdf);
+    availablecommits=A.comm;
+    commits=A.commits;
+    revisionss=A.revisionss
+    revisionnames=A.res
+    sortByKey(commits,'subject')
+    sortByKey(revisionss,'subject')
+    sortByKey(revisionnames,'subject')
+    sortByKey(availablecommits,'subject')
+   // K=loadrelevantgraphs(selectedgraph,selectedComm,commits,revisionss);
 
-
-
+;
+    
+  // rdf = turtle.parse(result);
+return revision}
+////////////////////////////////////////////////
 function reloadgraphs() {
     Availablegraphsets = [];
     url="http://127.0.0.1:8080/r43ples/createSampleDataset?dataset=all"
@@ -50,3 +74,11 @@ function httpGet(theUrl)
     return result;
     
 }
+function getrdfgraphs(link){
+    graph1 = [];
+    query='SELECT * WHERE { GRAPH <'+link +'>  {?s ?p ?o }}&format=text%2Fturtle'  
+    url="http://127.0.0.1:8080/r43ples/sparql?query="+query
+  // url='http://127.0.0.1:8080/r43ples/?query=SELECT+*+%0D%0AWHERE+%7B+%0D%0A%09GRAPH+%3C'+link+'%3E+%7B%0D%0A%09%09%3Fs+%3Fp+%3Fo+%0D%0A%09%7D%0D%0A%7D%0D%0A%09%09%09%09%09&format=text%2Fhtml'
+     result = httpGet(url);   
+     graph1=turtle.parse(result)  
+          return graph1  }

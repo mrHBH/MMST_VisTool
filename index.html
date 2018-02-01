@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/autocomplete.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="assets/css/style2.css">
+    <link rel="stylesheet" href="assets/css/minimap.css">
 </head>
 
 <body>
@@ -30,12 +31,18 @@
                 <ul class="list-unstyled components">
 
                     <li class="active">
-                      <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Revision Infora</a>
+                      <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Revision Information</a>
                         <ul class="collapse list-unstyled" id="homeSubmenu">
                             
                             
                               <div class="sidebar-header">
-                                  <div class="ui sub header">Single</div>
+                                  <div class="ui sub header"><details>
+  <summary>Copyright 1999-2014.</summary>
+  <p> - by Refsnes Data. All Rights Reserved.</p>
+  <p>All content and graphics on this web site are the property of the company Refsnes Data.</p>
+</details>
+
+<p><b>Note:</b> The details tag is not supported in Internet Explorer.</p></div>
                      
 
                              
@@ -43,26 +50,27 @@
                  </ul>
                     </li>
                     <li>
-                        <a href="#">About</a>
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">filters</a>
                       
                               <div class="sidebar-header">
                         <ul class="collapse list-unstyled" id="pageSubmenu">
-                            <li><a href="#">coming from</a></li>
-                                                  
-                                  <h4>Original RDF</h4>
-            <div class="input-group">
-              
-                    
-           
-                 
-           
-                <input type="text" class="form-control" readonly>
-            </div>                               
+             
+                                         
                             
-                    
+                     </ul>
                  
-               
+                                    <div class="sidebar-header">
+                                  <div class="ui sub header"><details>
+  <summary>Copyright 1999-2014.</summary>
+  <p> - by Refsnes Data. All Rights Reserved.</p>
+  <p>All content and graphics on this web site are the property of the company Refsnes Data.</p>
+</details>
+
+<p><b>Note:</b> The details tag is not supported in Internet Explorer.</p></div>
+                     
+
+                             
+                </div> 
                  </div>     
               <div class="sidebar-header">
                     <h4>Controls</h4>
@@ -73,7 +81,14 @@
                 </div>
 
                 <ul >
-                    jjj
+                    <details>
+  <summary>Copyright 1999-2014.</summary>
+  <p> - by Refsnes Data. All Rights Reserved.</p>
+  <p>All content and graphics on this web site are the property of the company Refsnes Data.</p>
+</details>
+
+<p><b>Note:</b> The details tag is not supported in Internet Explorer.</p></div>
+                    
                 </ul>
    
     </div>
@@ -89,12 +104,8 @@
                     <ul class="dropdown-menu" role="menu" id="selec"></ul>
                 </div>
                 <div class="dropdown btn-group" role="group">
-                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="revisionselection">Select Revision<span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation"><a href="#">First Item</a></li>
-                        <li role="presentation"><a href="#">Second Item</a></li>
-                        <li role="presentation"><a href="#">Third Item</a></li>
-                    </ul>
+                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="commitselection">Select Commit<span class="caret"></span></button>
+                    <ul class="dropdown-menu" role="menu" id="selecC"></ul>
                 </div>
             </div>
             <div class="btn-group" role="group">
@@ -105,8 +116,7 @@
         </div>
         <h1></h1>
 <div id="svg-body" class="canvas"></div>
-<div id="svg-revisions" class="canvas"></div>
-<div class="ui-widget">
+<div id="canvas_gmult"></div><div class="ui-widget">
   <label for="tags">Search: </label>
   <input id="tags">
 </div>
@@ -114,20 +124,25 @@
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/Graph.js"></script>
     <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/Graph.js"></script>
     <script src="assets/js/d3.min.js"></script>
-    <script src="assets/js/mainloop.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="assets/js/coulourful.js"></script>
+    <script src="assets/js/mainloop.js"></script>
+    <script src="assets/js/minimap.js"></script>
+    <script src="assets/js/search.js"></script>
     <script src="assets/js/collapse.js"></script>
     <script src="assets/js/tooltip.js"></script>
-    <script src="assets/js/search.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="assets/js/zoom.js"></script>
+    <script src="assets/js/loadrelevantgraphs.js"></script>
     <script src="assets/js/externalinterface.js"></script>
-    <script src="assets/js/minimap.js"></script>
+    <script src="assets/js/myfparser.js"></script>
     <script src="assets/js/Dropdown Selections.js"></script>
     <script src="assets/js/turtleparser.js"></script>
+    <script src="assets/js/parserevision.js"></script>
+    <script src="assets/js/Draw.js"></script>
 </body>
 
 </html>
