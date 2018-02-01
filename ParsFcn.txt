@@ -32,7 +32,7 @@ function revnum(txt)
 	// finding the number of the rev
 	for (i = 0; i < lgnt; i++)
 	{
-		pos = txt.indexOf("revisionNumber", temp);
+		pos = txt.indexOf("rmo:revisionNumber", temp);
 		if (pos != -1)
 		{
 		    temp = pos + 1;
@@ -62,60 +62,60 @@ function parse(txt, revcount)
   txt = txt.replace(/&gt;/g, "");		//erase >
   txt = txt.replace(/&quot;/g, "");		//erase "
 
-  txt = txt.split("rmo:Revision;");	// converting the text into array
+  txt = txt.split("armo:Revision;");	// converting the text into array
 
   for (i = 1; i <= revcount; i++)
   {
     temptxt = txt[i];
     
-    pos1 = temptxt.indexOf("addSet", pos2);
+    pos1 = temptxt.indexOf("rmo:addSet", pos2);
     if (pos1 != -1)
     {
-      pos2 = temptxt.indexOf(";", (pos1 + 7));
-      added = temptxt.slice((pos1 + 7), (pos2 - 1));
+      pos2 = temptxt.indexOf(";", (pos1 + 11));
+      added = temptxt.slice((pos1 + 11), (pos2 - 1));
     }
     else
     {
       added = "-1";
     }
 
-    pos1 = temptxt.indexOf("belongsTo", pos2);
+    pos1 = temptxt.indexOf("rmo:belongsTo", pos2);
     if (pos1 != -1)
     {
-      pos2 = temptxt.indexOf(";", (pos1 + 10));
-      belonged = temptxt.slice((pos1 + 10), (pos2 - 1));
+      pos2 = temptxt.indexOf(";", (pos1 + 14));
+      belonged = temptxt.slice((pos1 + 14), (pos2 - 1));
     }
     else
     {
       belonged = "-1";
     }
 
-    pos1 = temptxt.indexOf("deleteSet", pos2);
+    pos1 = temptxt.indexOf("rmo:deleteSet", pos2);
     if (pos1 != -1)
     {
-      pos2 = temptxt.indexOf(";", (pos1 + 10));
-      deleted = temptxt.slice((pos1 + 10), (pos2 - 1));
+      pos2 = temptxt.indexOf(";", (pos1 + 14));
+      deleted = temptxt.slice((pos1 + 14), (pos2 - 1));
     }
     else
     {
       deleted = "-1";
     }
 
-    pos1 = temptxt.indexOf("revisionNumber", pos2);
+    pos1 = temptxt.indexOf("rmo:revisionNumber", pos2);
     if (pos1 != -1)
     {
-      revnum = temptxt.slice((pos1 + 14), (pos1 + 15));
+      revnum = i - 1;
     }
     else
     {
       revnum = "-1";
     }
 
-    pos1 = temptxt.indexOf("wasDerivedFrom", pos2);
+    pos1 = temptxt.indexOf("rmo:wasDerivedFrom", pos2);
     if (pos1 != -1)
     {
-      pos2 = temptxt.indexOf(".armo", (pos1 + 14));
-      derived = temptxt.slice((pos1 + 14), (pos2 - 1));
+      pos2 = temptxt.indexOf(".armo", (pos1 + 18));
+      derived = temptxt.slice((pos1 + 18), (pos2 - 1));
     }
     else
     {
