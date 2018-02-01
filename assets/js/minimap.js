@@ -570,13 +570,13 @@ d3.demo.util.getXYFromTranslate = function(translateString) {
 };
 
 
-var canvasWidth = 800;
+var canvasWidth = 2000; // changed from 800 to 2000
 var shapes = [];
 var lastXY = 1;
 var zoomEnabled = true;
 var dragEnabled = true;
 
-var canvas = d3.demo.canvas().width(800).height(600);
+var canvas = d3.demo.canvas().width(1200).height(2000); //changed width and height from 800/600 to 1200/2000 
 d3.select("#canvas_gmult").call(canvas);
 
 
