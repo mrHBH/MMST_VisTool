@@ -2,17 +2,17 @@ var revision = [];
 
 function rev(added, deleted, belonged, derived, revnum) 
 {
-    this.added 		= added;
-    this.deleted 	= deleted;
-    this.belonged 	= belonged;
-    this.derived 	= derived;
-    this.revnum 	= revnum;
+    this.added = added;
+    this.deleted = deleted;
+    this.belonged = belonged;
+    this.derived = derived;
+    this.revnum = revnum;
 }
 
-function addRevison(added, deleted, belonged, derived, revnum)
+function addRevison(added,deleted,belonged,derived,revnum)
 {    
-  var r = new rev(added, deleted, belonged, derived, revnum);
-  revison.push(r);
+  var r = new rev(added,deleted,belonged,derived,revnum);
+  revision.push(r);
 }
 
 function revnum(txt)
@@ -64,7 +64,7 @@ function parse(txt, revcount)
 
   txt = txt.split("rmo:Revision;");	// converting the text into array
 
-  for (i = 0; i < revcount; i++)
+  for (i = 1; i <= revcount; i++)
   {
     temptxt = txt[i];
     
@@ -114,16 +114,15 @@ function parse(txt, revcount)
     pos1 = temptxt.indexOf("wasDerivedFrom", pos2);
     if (pos1 != -1)
     {
-      pos2 = temptxt.indexOf(".h", (pos1 + 14));
+      pos2 = temptxt.indexOf(".armo", (pos1 + 14));
       derived = temptxt.slice((pos1 + 14), (pos2 - 1));
     }
     else
     {
       derived = "-1";
     }    
-
-    addRevison(added, deleted, belonged, derived, revnum);
+	
+    pos2 = 0;
+    addRevison(added,deleted,belonged,derived,revnum);
   }
-
-  //return revision;
 }
