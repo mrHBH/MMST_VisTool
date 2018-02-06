@@ -5,4 +5,5 @@ Hamza Ben Hassen,
 Yu-Hsiang Lin,
 Bilík Šimon,
 Peter ____
-Please run using google chrome and make sure backend is running on localhost.
+Please run using google chrome or firefox.
+make sure R43ple backend is running on localhost.
