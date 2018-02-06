@@ -1,10 +1,11 @@
+
 var w = 800,
     h = 600;
 var zoomFactor = 4;
 
 zoom = d3.behavior.zoom();
 
-var triples = [
+ triples = [
   			{subject:"ex:ThaiLand", 	predicate:"ex:hasFood", 	object:"ex:TomYumKung"},
 			{subject:"ex:TomYumKung", 	predicate:"ex:isFoodOf", 	object:"ex:ThaiLand"},
   			{subject:"ex:TomYumKung", 	predicate:"rdf:type", 		object:"ex:SpicyFood"},
@@ -28,7 +29,7 @@ var triples = [
 
 
 
-var triples_1 = [
+ triples_1 = [
   			{subject:"ex:ThaiLand", 	predicate:"ex:hasFood", 	object:"ex:TomYumKung"},
 			{subject:"ex:TomYumKung", 	predicate:"ex:isFoodOf", 	object:"ex:ThaiLand"},
   			{subject:"ex:TomYumKung", 	predicate:"rdf:type", 		object:"ex:SpicyFood"},
@@ -41,7 +42,7 @@ var triples_1 = [
   			{subject:"ex:chilly", 		predicate:"ex:hasTaste", 	object:"ex:spicy"}
   		];
 		
-var triples_2 =[
+ triples_22 =[
   			{subject:"ex:ThaiLand", 	predicate:"ex:hasFood", 	object:"ex:TomYumKung"},
 			{subject:"ex:TomYumKung", 	predicate:"ex:isFoodOf", 	object:"ex:ThaiLand"},
   			{subject:"ex:TomYumKung", 	predicate:"rdf:type", 		object:"ex:SpicyFood"},
@@ -54,50 +55,25 @@ var triples_2 =[
 		];
 
 		
-var triples_added = [
+ triples_added = [
   			{subject:"ex:Taiwan", 	predicate:"ex:hasFood", 	object:"ex:TomYumKung"}		
   		];
 		
-var triples_deleted = [
+ triples_deleted = [
   			{subject:"ex:lemon", 		predicate:"ex:hasTaste", 	object:"ex:sour"},
   			{subject:"ex:chilly", 		predicate:"ex:hasTaste", 	object:"ex:spicy"}  		
 		];
-        svg = d3.select("#canvas_gmult");
+svg = d3.select("#canvas_gmult");
 
+	triples_2 = generateNewTriples(triples_1, triples_added, triples_deleted);
 
 function updategraphs(){
  triples_merged = triplesMerge(triples_1, triples_added);
  graph = triplesToGraph(triples_merged);
 }
-updategraphs();
-//
-	
-/*
-var svgg = d3.select("#svg-body")
-    .append("svg:svg")
-    .attr("width", "100%")
-    .attr("height", "100%")
-    .attr("id","svg")
-    .attr("pointer-events", "all")
-    .attr("viewBox","0 0 "+w+" "+h)
-    .attr("perserveAspectRatio","xMinYMid")
-    .call(zoom.on("zoom", redraw))
- 
+
+function generategraph(t1,t2,ta,td){
     
-    .append('svg:g');
-*/
-  
-/*
-function redraw() {
-    trans=d3.event.translate;
-    scale=d3.event.scale;
-    svg.attr("transform",
-        "translate(" + trans + ")"
-            + " scale(" + scale + ")");
-};
-*/
-//ar force = d3.layout.force().size([800, 600]);
-	
+       return triplesToGraph( triplesMerge(t1, ta));     
 
-
-
+}

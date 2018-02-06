@@ -1,6 +1,51 @@
-//nodes_names = svg.selectAll(".nodeName")
-//var nodes = svg.selectAll(".node");
-
+function filterNodesById(nodes,id){
+			return nodes.filter(function(n) { return n.id === id; });
+		}
+		
+		function filterNodesByType(nodes,value){
+			return nodes.filter(function(n) { return n.type === value; });
+		}
+		
+		function triplesToGraph(triples){
+		
+			svg.html("");
+			//Graph
+			var graph={nodes:[], links:[], triples:[]};
+			
+			//Initial Graph from triples
+			triples.forEach(function(triple){
+				var subjId = triple.subject;
+				var predId = triple.predicate;
+				var objId = triple.object;
+				
+				var subjNode = filterNodesById(graph.nodes, subjId)[0];
+				var objNode  = filterNodesById(graph.nodes, objId)[0];
+				
+				if(subjNode==null){
+					subjNode = {id:subjId, label:subjId, weight:1, type:"node"};
+					graph.nodes.push(subjNode);
+				}
+				
+				if(objNode==null){
+					objNode = {id:objId, label:objId, weight:1, type:"node"};
+					graph.nodes.push(objNode);
+				}
+				
+				var predNode = {id:predId, label:predId, weight:1, type:"pred"} ;
+				graph.nodes.push(predNode);
+				
+				var blankLabel = "";
+				
+				graph.links.push({source:subjNode, target:predNode, predicate:blankLabel, weight:1});
+				graph.links.push({source:predNode, target:objNode, predicate:blankLabel, weight:1});
+				
+				graph.triples.push({s:subjNode, p:predNode, o:objNode});
+				
+			});
+			
+			return graph;
+		}
+		
 function triplesMerge(triples_old, triples_added)
 {
 	var triples_merged = triples_old.slice(0);
@@ -18,11 +63,6 @@ function triplesMerge(triples_old, triples_added)
 
 function colorDeletedLinks(triples_old, triples_deleted)
 {
-	//var target = document.getElementBy();
-	//target.setAttribute("type", "node_added");
-	//alert("target:" + target);
-	//target.getAttribute("cx");
-	//document.getElementsByClassName("link")[0].setAttribute("stroke", "blue")
 	
 	/*Deleted Links*/
 	var cnt_old = 0;
@@ -37,7 +77,12 @@ function colorDeletedLinks(triples_old, triples_deleted)
 			{	
 				if(triples_old[cnt_old].object == triples_deleted[cnt_deleted].object)
 				{
-					document.getElementsByClassName("link")[cnt_old].setAttribute("stroke-dasharray", 5.5);					
+					document.getElementsByClassName("link")[cnt_old].setAttribute("stroke-dasharray", 5.5);
+					document.getElementsByClassName("link")[cnt_old].setAttribute("stroke-width", 2);					
+					document.getElementsByClassName("link")[cnt_old].setAttribute("stroke", "red");
+					var original_text = document.getElementsByClassName("link-text")[cnt_old].innerHTML;
+					var new_text = "[deleted]" + original_text;
+					document.getElementsByClassName("link-text")[cnt_old].innerHTML = new_text;					
 					cnt_deleted++;
 				}
 			}
@@ -78,6 +123,9 @@ function colorDeletedNodes(triples_new, triples_deleted)
 				if(document.getElementsByClassName("node-text")[cnt_nodes].innerHTML == triples_deleted[cnt_deleted].object)
 				{
 					document.getElementsByClassName("node")[cnt_nodes].setAttribute("fill", "red");
+					var original_text = document.getElementsByClassName("node-text")[cnt_nodes].innerHTML;
+					var new_text = "[deleted]" + original_text;
+					document.getElementsByClassName("node-text")[cnt_nodes].innerHTML = new_text;					
 				}
 				cnt_nodes++;
 			}
@@ -95,71 +143,17 @@ function colorAddedLinks(triples_old, triples_added)
 	
 	while(cnt_added < triples_added.length)
 	{
-		document.getElementsByClassName("link")[triples_old.length+cnt_added].setAttribute("stroke", "blue");
+		document.getElementsByClassName("link")[triples_old.length+cnt_added].setAttribute("stroke", "green");
+		document.getElementsByClassName("link")[triples_old.length+cnt_added].setAttribute("stroke-width", 2);		
+		var original_text = document.getElementsByClassName("link-text")[triples_old.length+cnt_added].innerHTML;
+		var new_text = "[added]" + original_text;
+		document.getElementsByClassName("link-text")[triples_old.length+cnt_added].innerHTML = new_text;		
 		cnt_added++;
 	}
 }
 
 function colorAddedNodes(triples_old, triples_merged)
-{
-	/*var cnt_old = 0;
-	var cnt_added = 0;
-	var number_added_nodes = 0;
-	
-	while(cnt_added < triples_added.length)
-	{
-		//check subject of the added triples
-		while(cnt_old < triples_old.length)
-		{
-			if(triples_added[cnt_added].subject != triples_old[cnt_old].subject)
-			{
-				if(triples_added[cnt_added].subject != triples_old[cnt_old].object)
-				{
-					cnt_old++;
-				}else{
-					break;
-				}
-			}else{
-				break;
-			}
-		}
-		
-		if(cnt_old == triples_old.length){number_added_nodes++;}
-		
-		cnt_old = 0;
-		
-		//check object of the added triples
-		while(cnt_old < triples_old.length)
-		{
-			if(triples_added[cnt_added].object != triples_old[cnt_old].subject)
-			{
-				if(triples_added[cnt_added].object != triples_old[cnt_old].object)
-				{
-					cnt_old++;
-				}else{
-					break;
-				}
-			}else{
-				break;
-			}
-		}
-		
-		if(cnt_old == triples_old.length){number_added_nodes++;}
-		
-		cnt_old = 0;
-		
-		
-		cnt_added++;
-	}
-	
-	var cnt = 0;
-	while(cnt < number_added_nodes)
-	{
-		//alert(number_added_nodes);
-		document.getElementsByClassName("node")[triples_old.length+cnt].setAttribute("fill", "blue");
-		cnt++;
-	}*/
-	
+{	
 	var nodes_old = countNodes(triples_old);
 	var nodes_merged = countNodes(triples_merged);
 	
@@ -168,8 +162,10 @@ function colorAddedNodes(triples_old, triples_merged)
 	
 	while(cnt < number_added_nodes)
 	{
-		//alert(number_added_nodes);
-		document.getElementsByClassName("node")[nodes_old+cnt].setAttribute("fill", "blue");
+		document.getElementsByClassName("node")[nodes_old+cnt].setAttribute("fill", "green");
+		var original_text = document.getElementsByClassName("node-text")[nodes_old+cnt].innerHTML;
+		var new_text = "[added]" + original_text;
+		document.getElementsByClassName("node-text")[nodes_old+cnt].innerHTML = new_text;
 		cnt++;
 	}
 }
@@ -190,7 +186,6 @@ function countNodes(triples)
 		{
 			if(triples[cnt_triples].subject == nodes[cnt_nodes]){break;}
 			cnt_nodes++;
-			//alert(triples[cnt_triples].subject);
 		}
 		
 		if(cnt_nodes == nodes.length){nodes.push(triples[cnt_triples].subject);}
@@ -209,4 +204,42 @@ function countNodes(triples)
 	}
 	
 	return nodes.length;
+}
+
+function generateNewTriples(triples_old, triples_added, triples_deleted)
+{
+	var cnt_new = 0;
+	var cnt_deleted = 0;
+	var cnt_added = 0;
+	var triples_new = triples_old.slice(0);
+	
+	while(cnt_added < triples_added.length)
+	{
+		triples_new.push(triples_added[cnt_added]);
+		cnt_added++;
+	}
+	
+	
+	while(cnt_deleted < triples_deleted.length)
+	{
+		while(cnt_new < triples_new.length)
+		{
+			if(triples_deleted[cnt_deleted].subject == triples_new[cnt_new].subject)
+			{
+				if(triples_deleted[cnt_deleted].predicate == triples_new[cnt_new].predicate)
+				{
+					if(triples_deleted[cnt_deleted].object == triples_new[cnt_new].object)
+					{
+						triples_new.splice(cnt_new, 1);
+					}
+				}
+			}
+			cnt_new++;
+		}
+		cnt_new = 0;
+		
+		cnt_deleted++;
+	}
+	
+	return triples_new;
 }

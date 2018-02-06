@@ -1,19 +1,20 @@
 function loadrelevantgraphs(selectedgraph,selectedComm,commits,revisionss)
 {
-	var rdf1link='';
-	var rdf2link='';
-	var selectedcommdetails=[];
-	var rdf1linkdetails=[];
-	var rdf2linkdetails=[];
-	var added='';
-	var deleted='';
+	 rdf1link='';
+	 rdf2link='';
+	 selectedcommdetails=[];
+	 rdf1linkdetails=[];
+	 rdf2linkdetails=[];
+	 added='';
+	 deleted='';
 	
 	for (j = 0; j < commits.length; j++){
 	if (commits[j].subject.includes(selectedComm)  ){ selectedcommdetails.push(commits[j])}
 	    }
 			
 	for (j = 0; j < selectedcommdetails.length; j++){
-	if (selectedcommdetails[j].predicate.includes('used')  ){ rdf1link=selectedcommdetails[j].object}
+        rdf1link=selectedcommdetails[0].object
+	//if (selectedcommdetails[j].predicate.includes('used')  ){ rdf1link=selectedcommdetails[j].object}
      if (selectedcommdetails[j].predicate.includes('generated')) { rdf2link=selectedcommdetails[j].object}
       }
 

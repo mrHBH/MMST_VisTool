@@ -1,4 +1,4 @@
- var tooltip = d3.select("#svg-body").append("div")
+ /*var tooltip = d3.select("#svg-body").append("div")
             .attr("class", "tooltip")
             .style("opacity", 1e-6);
 
@@ -38,4 +38,4 @@ var nodes = svg.selectAll(".node")
                 tooltip.transition()
                 .duration(300)
                 .style("opacity", 1e-6);
-            }
+            }*/

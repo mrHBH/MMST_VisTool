@@ -1,4 +1,50 @@
-
+function filterNodesById(nodes,id){
+			return nodes.filter(function(n) { return n.id === id; });
+		}
+		
+		function filterNodesByType(nodes,value){
+			return nodes.filter(function(n) { return n.type === value; });
+		}
+		
+		function triplesToGraph(triples){
+		
+			svg.html("");
+			//Graph
+			var graph={nodes:[], links:[], triples:[]};
+			
+			//Initial Graph from triples
+			triples.forEach(function(triple){
+				var subjId = triple.subject;
+				var predId = triple.predicate;
+				var objId = triple.object;
+				
+				var subjNode = filterNodesById(graph.nodes, subjId)[0];
+				var objNode  = filterNodesById(graph.nodes, objId)[0];
+				
+				if(subjNode==null){
+					subjNode = {id:subjId, label:subjId, weight:1, type:"node"};
+					graph.nodes.push(subjNode);
+				}
+				
+				if(objNode==null){
+					objNode = {id:objId, label:objId, weight:1, type:"node"};
+					graph.nodes.push(objNode);
+				}
+				
+				var predNode = {id:predId, label:predId, weight:1, type:"pred"} ;
+				graph.nodes.push(predNode);
+				
+				var blankLabel = "";
+				
+				graph.links.push({source:subjNode, target:predNode, predicate:blankLabel, weight:1});
+				graph.links.push({source:predNode, target:objNode, predicate:blankLabel, weight:1});
+				
+				graph.triples.push({s:subjNode, p:predNode, o:objNode});
+				
+			});
+			
+			return graph;
+		}
 d3.demo = {};
 var pannablecanvas=0;
 /** CANVAS **/
@@ -17,7 +63,7 @@ d3.demo.canvas = function() {
         wrapperBorder   = 2,
         minimap         = null,
         minimapPadding  = 20,
-        minimapScale    = 0.25,
+        minimapScale    = 0.15,
         circleSelection = null,
         force           = null;
 
@@ -169,8 +215,8 @@ d3.demo.canvas = function() {
 pannablecanvas=panCanvas;
         panCanvas.append("rect")
             .attr("class", "background")
-            .attr("width", width)
-            .attr("height", height);
+            .attr("width", width+1000)
+            .attr("height", height+1000);
 
         minimap = d3.demo.minimap()
             .zoom(zoom)
@@ -182,8 +228,8 @@ pannablecanvas=panCanvas;
         svg.call(minimap);
             
         // startoff zoomed in a bit to show pan/zoom rectangle
-        zoom.scale(1.5);
-        zoomHandler(1.5);
+        zoom.scale(0.5);
+        zoomHandler(0.5);
 
         /** ADD SHAPE **/
         canvas.addItem = function(item) {
@@ -224,8 +270,8 @@ canvas.drawgraph = function(graphr) {
     .enter().append("svg:marker")
       .attr("id", String)
       .attr("viewBox", "0 -5 10 10")
-      .attr("refX", 22)
-      .attr("refY", -0.5)
+      .attr("refX", 20)
+      .attr("refY", -0)
       .attr("markerWidth", 6)
       .attr("markerHeight", 6)
       .attr("orient", "auto")
@@ -419,12 +465,12 @@ d3.demo.minimap = function() {
 
     "use strict";
 
-    var minimapScale    = 0.15,
+    var minimapScale    = 0.05,
         scale           = 1,
         zoom            = null,
         base            = null,
         target          = null,
-        width           = 0,
+        width           = 10,
         height          = 0,
         x               = 0,
         y               = 0,
@@ -570,27 +616,55 @@ d3.demo.util.getXYFromTranslate = function(translateString) {
 };
 
 
-var canvasWidth = 2000; // changed from 800 to 2000
+var canvasWidth = 20000;
 var shapes = [];
 var lastXY = 1;
 var zoomEnabled = true;
 var dragEnabled = true;
 
-var canvas = d3.demo.canvas().width(1200).height(2000); //changed width and height from 800/600 to 1200/2000 
-d3.select("#canvas_gmult").call(canvas);
+var canvas = d3.demo.canvas().width(800
+                                   ).height(600);
 
+
+
+
+
+
+
+
+function DrawGraph(graph){
+     d3.select("#canvas_gmult").call(canvas)
+     canvas.drawgraph(graph); 
+     nodetexts = d3.select(".panCanvas").selectAll(".node-text");
+     nodes = d3.select(".panCanvas").selectAll(".node")
+     search();
+     return   
+    }
 
  
-function drawgraph(graph){
+function drawgraphcolored(t1,t2,ta,td){              // give triples1 , triples 2 , triple added and triple deleted and draws the graph on the canvas
+   
+
+    triples_merged = triplesMerge(t1, ta);
+    graph = triplesToGraph(triples_merged);
+ d3.select("#canvas_gmult").call(canvas)
  canvas.drawgraph(graph); 
  nodetexts = d3.select(".panCanvas").selectAll(".node-text");
  nodes = d3.select(".panCanvas").selectAll(".node")
+ if (t2!=0){tt2 = generateNewTriples(t1,ta,td);
+    colorDeletedLinks(t1, td);  //color the deleted links, Input: old triples, deleted triples
+	colorDeletedNodes(tt2, td);  //color the deleted nodes, Input: new triples, deleted triples
+	colorAddedLinks(t1, ta);      //color the added links, Input: old triples, added triples
+	colorAddedNodes(t1, triples_merged);   }     //color the added nodes, Input: old triples, added triples
+    console.log(tt2)
 
-
-    colorDeletedLinks(triples_1, triples_deleted);  //color the deleted links, Input: old triples, deleted triples
-	colorDeletedNodes(triples_2, triples_deleted);  //color the deleted nodes, Input: new triples, deleted triples
-	colorAddedLinks(triples_1, triples_added);      //color the added links, Input: old triples, added triples
-	colorAddedNodes(triples_1, triples_merged);        //color the added nodes, Input: old triples, added triples
- return(nodetexts,nodes)
+    search(); 
+    $( ".panCanvas" ).append( "<p>Test</p>" );
+ return
  }
-drawgraph(graph);
+
+
+
+drawgraphcolored(triples_1,triples_2,triples_added,triples_deleted);
+
+

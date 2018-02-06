@@ -4,145 +4,83 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>with sidebar</title>
+    <title>prefinal</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
-    <link rel="stylesheet" href="assets/css/graphstyle.css">
-    <link rel="stylesheet" href="assets/css/autocomplete.css">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="assets/css/style2.css">
     <link rel="stylesheet" href="assets/css/minimap.css">
+    <link rel="stylesheet" href="assets/css/graphstyle.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="assets/css/autocomplete.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
 </head>
 
 <body>
-    <div class="wrapper">
-        
-            <!-- Sidebar Holder -->
-            <nav id="sidebar">
-                <div class="sidebar-header">
-                    <h3>Informations</h3>
+    <div id="maincontainer" class="maincontainer">
+        <h3>R43ple Diff Visualisation Tool<small> Gruppe 5.2</small></h3>
+        <div>
+            <ul class="nav nav-tabs nav-justified">
+                <li class="active"><a href="#tab-1" role="tab" data-toggle="tab">Selection </a></li>
+                <li id="showgrapht"><a href="#tab-2" id="eee" role="tab" data-toggle="tab">Visualisation </a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" role="tabpanel" id="tab-1">
+                    <div>
+                        <p class="lead text-center"><strong>Please load the availlable Graphs and then select a Graph and a commit.</strong> </p>
+                        <div>
+                            <div class="btn-toolbar">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-info" type="button" id="load">Load Available Graphs</button>
+                                </div>
+                                <div class="btn-group" role="group">
+                                    <div class="dropdown btn-group" role="group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="Graphselection">Select Graph<span class="caret"></span></button>
+                                        <ul class="dropdown-menu" role="menu" id="selec"></ul>
+                                    </div>
+                                    <div class="dropdown btn-group" role="group">
+                                        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="commitselection">Select Commit<span class="caret"></span></button>
+                                        <ul class="dropdown-menu" role="menu" id="selecC"></ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 id="selectedgraphtext">Selected Graph : </h3>
+                        <h3 id="selectedcomm">Selected Commit : </h3></div>
                 </div>
-  
-                 <ul class="list-unstyled components">
-
-                  
-          
-
-                <ul class="list-unstyled components">
-
-                    <li class="active">
-                      <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Revision Information</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
-                            
-                            
-                              <div class="sidebar-header">
-                                  <div class="ui sub header"><details>
-  <summary>Copyright 1999-2014.</summary>
-  <p> - by Refsnes Data. All Rights Reserved.</p>
-  <p>All content and graphics on this web site are the property of the company Refsnes Data.</p>
-</details>
-
-<p><b>Note:</b> The details tag is not supported in Internet Explorer.</p></div>
-                     
-
-                             
-                </div>                          
-                 </ul>
-                    </li>
-                    <li>
-                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">filters</a>
-                      
-                              <div class="sidebar-header">
-                        <ul class="collapse list-unstyled" id="pageSubmenu">
-             
-                                         
-                            
-                     </ul>
-                 
-                                    <div class="sidebar-header">
-                                  <div class="ui sub header"><details>
-  <summary>Copyright 1999-2014.</summary>
-  <p> - by Refsnes Data. All Rights Reserved.</p>
-  <p>All content and graphics on this web site are the property of the company Refsnes Data.</p>
-</details>
-
-<p><b>Note:</b> The details tag is not supported in Internet Explorer.</p></div>
-                     
-
-                             
-                </div> 
-                 </div>     
-              <div class="sidebar-header">
-                    <h4>Controls</h4>
-                  <button id="bod" class="btn btn-danger" type="button">Reset</button>
-                  
-                  <button id="bod" class="btn btn-info"   type="button " onclick="reloadgraphs()">Reload Graphs</button>       
-                           <button id="bod" class="btn btn-info"   type="button " onclick="loadavailablerevisions(selectedgraph)">load revision</button>        
-                </div>
-
-                <ul >
-                    <details>
-  <summary>Copyright 1999-2014.</summary>
-  <p> - by Refsnes Data. All Rights Reserved.</p>
-  <p>All content and graphics on this web site are the property of the company Refsnes Data.</p>
-</details>
-
-<p><b>Note:</b> The details tag is not supported in Internet Explorer.</p></div>
+                <div class="tab-pane" role="tabpanel" id="tab-2">
                     
-                </ul>
-   
-    </div>
-    <div class="row"></div>
-    <div id="content" class="wrapper">
-        <div class="btn-toolbar">
-            <div class="btn-group" role="group">
-                <button class="btn btn-info" type="button" id="sidebarCollapse"><i class="glyphicon glyphicon-list"></i> Show Infos</button>
-            </div>
-            <div class="btn-group" role="group">
-                <div class="dropdown btn-group" role="group">
-                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="Graphselection">Select Graph<span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu" id="selec"></ul>
-                </div>
-                <div class="dropdown btn-group" role="group">
-                    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" id="commitselection">Select Commit<span class="caret"></span></button>
-                    <ul class="dropdown-menu" role="menu" id="selecC"></ul>
-                </div>
-            </div>
-            <div class="btn-group" role="group">
-                <button class="btn btn-default" type="button">Show Base Graph</button>
-                <button class="btn btn-default" type="button">Show Current Revision</button>
-                <button class="btn btn-default" type="submit">Show Difference</button>
-            </div>
-        </div>
-        <h1></h1>
-<div id="svg-body" class="canvas"></div>
-<div id="canvas_gmult"></div><div class="ui-widget">
+<div id="canvas_gmult"></div>
+<div class="ui-widget">
   <label for="tags">Search: </label>
   <input id="tags">
 </div>
 
+                </div>
+                <div class="tab-pane" role="tabpanel" id="tab-3"></div>
+            </div>
+        </div>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery-3.2.1.min.js"></script>
-    <script src="assets/js/Graph.js"></script>
     <script src="assets/js/d3.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <script src="assets/js/coulourful.js"></script>
+    <script src="assets/js/turtleparser.js"></script>
+    <script src="assets/js/search.js"></script>
     <script src="assets/js/mainloop.js"></script>
     <script src="assets/js/minimap.js"></script>
-    <script src="assets/js/search.js"></script>
-    <script src="assets/js/collapse.js"></script>
     <script src="assets/js/tooltip.js"></script>
     <script src="assets/js/zoom.js"></script>
     <script src="assets/js/loadrelevantgraphs.js"></script>
+    <script src="assets/js/parsetextmanualnoturtleffs.js"></script>
     <script src="assets/js/externalinterface.js"></script>
     <script src="assets/js/myfparser.js"></script>
     <script src="assets/js/Dropdown Selections.js"></script>
-    <script src="assets/js/turtleparser.js"></script>
     <script src="assets/js/parserevision.js"></script>
     <script src="assets/js/Draw.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
+    <script src="assets/js/viewselection.js"></script>
 </body>
 
 </html>

@@ -1,4 +1,4 @@
-var svg = d3.select(".panCanvas")
+function search(){ var svg = d3.select(".panCanvas")
 
 var counter = 0;
 var nodeindex=0;
@@ -13,19 +13,6 @@ while(counter < length){
   Textnodes.push(nodetexts[0][counter++].innerHTML
 );
 }
-
-
- function refrechsearch(){
-     
-     counter=0;
-     length = nodetexts[0].length;
-     Textnodes=[];
-     while(counter < length){
-  Textnodes.push(nodetexts[0][counter++].innerHTML);
-                 $('#tags').autocomplete("option", { source: Textnodes });
-;
-}
- }
 
 $( function() {
        $( "#tags" ).autocomplete({
@@ -46,3 +33,4 @@ $( function() {
   
         })})
 
+                 }

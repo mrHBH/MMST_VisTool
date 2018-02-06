@@ -41,7 +41,7 @@ function loadavailablerevisions(selection) {
     sortByKey(revisionss,'subject')
     sortByKey(revisionnames,'subject')
     sortByKey(availablecommits,'subject')
-   // K=loadrelevantgraphs(selectedgraph,selectedComm,commits,revisionss);
+ 
 
 ;
     
@@ -70,15 +70,16 @@ function httpGet(theUrl)
     xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
     xmlHttp.send( null );    
     result=xmlHttp.responseText;
-    alert('done')
+    //alert('done')
     return result;
     
 }
 function getrdfgraphs(link){
     graph1 = [];
-    query='SELECT * WHERE { GRAPH <'+link +'>  {?s ?p ?o }}&format=text%2Fturtle'  
+    query='SELECT * WHERE { GRAPH <'+link +'>{?s ?p ?o }}'  
     url="http://127.0.0.1:8080/r43ples/sparql?query="+query
   // url='http://127.0.0.1:8080/r43ples/?query=SELECT+*+%0D%0AWHERE+%7B+%0D%0A%09GRAPH+%3C'+link+'%3E+%7B%0D%0A%09%09%3Fs+%3Fp+%3Fo+%0D%0A%09%7D%0D%0A%7D%0D%0A%09%09%09%09%09&format=text%2Fhtml'
-     result = httpGet(url);   
-     graph1=turtle.parse(result)  
+     result = httpGet(url);  
+     console.log(result);
+     graph1=parsetexttotriples(result)  
           return graph1  }
